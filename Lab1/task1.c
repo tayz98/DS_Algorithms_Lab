@@ -23,17 +23,68 @@
        Ergebnis liefert als der Standardoperator soll eine Fehlermeldung ausgegeben werden.
        Korrigieren Sie Ihr Programm gegebenenfalls, bis alle Fehlermeldungen eliminiert sind.*/
 
-/* solution for a): each digit of a single decimal number will be put into a new integer array.
- *                  this procedure will be done for all existing decimal numbers.
- *                  a new int array, where the arithmetic operation will be saved, is needed.
- *                  each matching element of the arrays will be added up.
- *                  if the result is less than 10, then save the result to the matching element of the new array.
- *                  if the result is 10, then save '0' to the matching element of the new array AND add 1 to the next element of the new array.
- *                  if the result is above 10, then save the first digit (from right) to the matching element of the new array AND the second digit to the next element of the new array.
- *                  repeat the steps above until the array is out of elements/numbers.
+/* solution for a):
  */
-//solutions for b,c,d,e
-int main (void){
 
+//solutions for b,c,d,e:
+#include <stdio.h>
+int digit(int, int);
+int amountOfDigits(int);
+int add(int, int);
+
+int main (void){
+    printf("%d\n",digit(12345, 3));
+    printf("%d\n", amountOfDigits(12345));
+    printf("%d\n", add(12345, 54321));
+    printf("%d\n", add(12345,12345));
     return 0;
+}
+// solution for b:
+int digit(int number, int digit){
+    for (int i = 1; i<=digit-1; i++)
+    {
+        number /= 10;
+    }
+    number = number % 10;
+    int numberToReturn = number;
+    return numberToReturn;
+}
+// solution for c:
+int amountOfDigits(int number){
+    int i = 0;
+    while (number != 0){
+        i++;
+        number /= 10;
+    }
+    return i;
+}
+
+// solution for d:
+int add(int number1, int number2){
+    int result = 0;
+    int digitcount = 1;
+    int size;
+    if(amountOfDigits(number1) == amountOfDigits(number2))
+    {
+        if ((digit(number1, amountOfDigits(number1) + digit(number2, amountOfDigits(number2)))) >=10)         // maybe not the cleanest or "smartest" code but fulfils the purpose for now I guess.
+        {
+            size = amountOfDigits(number1) + 1;
+        } else {
+            size = amountOfDigits(number1);
+        }
+    }
+    if(amountOfDigits(number1) < amountOfDigits(number2)) {
+        if ((digit(number1, amountOfDigits(number1) + digit(number2, amountOfDigits((number2)-1)))) >=10)    // stopped working here. what happens if you have a second carry over at number2.
+        {
+            size = amountOfDigits(number1) + 1; // copied pasted. needs to be re rewritten.
+        } else {
+            size = amountOfDigits(number1); // copied pasted. needs to be re rewritten.
+        }
+    }
+    for (int i = 0; i <= size; i++)
+    {
+        result += (digit(number1, digitcount)+ digit(number2, digitcount));
+        digitcount++;
+    }
+    return result;
 }
