@@ -60,10 +60,42 @@ int amountOfDigits(int number){
 }
 
 // solution for d:
-int add(int number1, int number2){
-    int result = 0;
-    int digitcount = 1;
+int add(int number1, int number2) {
     int size;
+    int k = 0;
+    int temp = 0;
+    int biggerNumber;
+    const int arrSize = 10;
+    int number3[arrSize] = {0};
+
+    if (amountOfDigits(number1) > amountOfDigits(number2))
+    {
+        biggerNumber = amountOfDigits(number1);
+
+    } else if (amountOfDigits(number1) < amountOfDigits(number2))
+    {
+        biggerNumber = amountOfDigits(number2);
+    } else
+    {
+        biggerNumber = amountOfDigits(number1);
+    }
+
+    for (int j = 1; j < amountOfDigits(biggerNumber); j++)
+    {
+        if (digit(number1, amountOfDigits(j)) + digit(number2, amountOfDigits(j)) == 10){
+            temp = 1;
+            result[k+1] += temp;
+        } else if (digit(number1, amountOfDigits(j)) + digit(number2, amountOfDigits(j)) >= 10){
+            result[k] = (digit(number1, amountOfDigits(j)) + digit(number2, amountOfDigits(j))) % 10;
+            result[k+1]= 1;
+        }
+
+    }
+
+    return 93789;
+}
+
+    /*
     if(amountOfDigits(number1) == amountOfDigits(number2))
     {
         if ((digit(number1, amountOfDigits(number1) + digit(number2, amountOfDigits(number2)))) >=10)         // maybe not the cleanest or "smartest" code but fulfils the purpose for now I guess.
@@ -88,3 +120,4 @@ int add(int number1, int number2){
     }
     return result;
 }
+     */
