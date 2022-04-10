@@ -28,15 +28,15 @@
 
 //solutions for b,c,d,e:
 #include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
 int digit(int, int);
 int amountOfDigits(int);
 int add(int, int);
 
 int main (void){
-    printf("%d\n",digit(12345, 3));
-    printf("%d\n", amountOfDigits(12345));
-    printf("%d\n", add(12345, 54321));
-    printf("%d\n", add(12345,12345));
+    add(12345,12345);
     return 0;
 }
 // solution for b:
@@ -51,50 +51,60 @@ int digit(int number, int digit){
 }
 // solution for c:
 int amountOfDigits(int number){
-    int i = 0;
+    int i = 1;
     while (number != 0){
-        i++;
         number /= 10;
+        i++;
     }
     return i;
 }
 
 // solution for d:
 int add(int number1, int number2) {
-    int size;
-    int k = 0;
+    int digitCount;
     int temp = 0;
-    int biggerNumber;
-    const int arrSize = 10;
-    int number3[arrSize] = {0};
-
-    if (amountOfDigits(number1) > amountOfDigits(number2))
-    {
-        biggerNumber = amountOfDigits(number1);
-
-    } else if (amountOfDigits(number1) < amountOfDigits(number2))
-    {
-        biggerNumber = amountOfDigits(number2);
-    } else
-    {
-        biggerNumber = amountOfDigits(number1);
+    int interimResult;
+    int *sizeOfArrayResult;
+    if (amountOfDigits(number1) >= amountOfDigits(number2)) {
+        digitCount = number1;
+        sizeOfArrayResult = malloc(sizeof(int) * digitCount);
+    } else {
+        digitCount = amountOfDigits(number2);
+        sizeOfArrayResult = malloc(sizeof(int) * digitCount);
     }
 
-    for (int j = 1; j < amountOfDigits(biggerNumber); j++)
-    {
-        if (digit(number1, amountOfDigits(j)) + digit(number2, amountOfDigits(j)) == 10){
+    for (int i = 0; i < digitCount; i++){
+        interimResult = digit(number1, i) + digit(number2, i);
+        if ( i > 0 && (digit(number1, i-1)) + digit(number2, i-1) >= 10){
             temp = 1;
-            result[k+1] += temp;
-        } else if (digit(number1, amountOfDigits(j)) + digit(number2, amountOfDigits(j)) >= 10){
-            result[k] = (digit(number1, amountOfDigits(j)) + digit(number2, amountOfDigits(j))) % 10;
-            result[k+1]= 1;
         }
+        if (interimResult + temp >= 10){
+            if (interimResult > 10) {
+                sizeOfArrayResult[i] = interimResult % 10;
+                if (temp == 1) {
+                    sizeOfArrayResult[i] += 1;
+                    temp = 0;
 
+                }
+            }
+            else if(interimResult + temp == 10){
+                sizeOfArrayResult[i] = 1;
+                if (temp == 1) {
+                    sizeOfArrayResult[i] += 1;
+                    temp = 0;
+                }
+
+            }
+        } else {
+            sizeOfArrayResult[i] = interimResult;
+            if (temp == 1) {
+                sizeOfArrayResult[i] += 1;
+                temp = 0;
+            }
+        }
+        printf ("%d", sizeOfArrayResult[i]);
     }
-
-    return 93789;
 }
-
     /*
     if(amountOfDigits(number1) == amountOfDigits(number2))
     {
