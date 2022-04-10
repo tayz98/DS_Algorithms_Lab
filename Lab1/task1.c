@@ -36,7 +36,7 @@ int amountOfDigits(int);
 int add(int, int);
 
 int main (void){
-    add(12345,12345);
+    printf("%d", amountOfDigits(12345));
     return 0;
 }
 // solution for b:
@@ -51,7 +51,7 @@ int digit(int number, int digit){
 }
 // solution for c:
 int amountOfDigits(int number){
-    int i = 1;
+    int i = 0;
     while (number != 0){
         number /= 10;
         i++;
@@ -64,13 +64,13 @@ int add(int number1, int number2) {
     int digitCount;
     int temp = 0;
     int interimResult;
-    int *sizeOfArrayResult;
+    int *sizeOfArrayResult = NULL;
     if (amountOfDigits(number1) >= amountOfDigits(number2)) {
-        digitCount = number1;
-        sizeOfArrayResult = malloc(sizeof(int) * digitCount);
+        digitCount = amountOfDigits(number1);
+        sizeOfArrayResult = malloc(sizeof(int) *digitCount);
     } else {
         digitCount = amountOfDigits(number2);
-        sizeOfArrayResult = malloc(sizeof(int) * digitCount);
+        sizeOfArrayResult = malloc(sizeof(int) *digitCount);
     }
 
     for (int i = 0; i < digitCount; i++){
