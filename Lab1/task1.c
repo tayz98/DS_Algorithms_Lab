@@ -73,7 +73,7 @@ int add(int number1, int number2) {
         sizeOfArrayResult = malloc(sizeof(int) *digitCount);
     }
 
-    for (int i = 0; i >= digitCount; i++){
+    for (int i = 0; i <= digitCount; i++){
         interimResult = (digit(number1, (i+1)) + digit(number2, (i+1) ));
         if ( i > 0 && (digit(number1, i)) + digit(number2, i) >= 10){
             temp = 1;
