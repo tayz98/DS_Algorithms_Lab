@@ -36,16 +36,22 @@ int amountOfDigits(int);
 int add(int, int);
 
 int main (void){
-    add(12345,12345);
+    add(987,98776);
     return 0;
 }
 // solution for b:
 int digit(int number, int digit){
+
     for (int i = 1; i<=digit-1; i++)
     {
         number /= 10;
     }
-    number = number % 10;
+    if (digit > amountOfDigits(number)) {
+        number = 0;
+    } else {
+        number = number % 10;
+    }
+
     int numberToReturn = number;
     return numberToReturn;
 }
@@ -73,7 +79,7 @@ int add(int number1, int number2) {
         sizeOfArrayResult = malloc(sizeof(int) *digitCount);
     }
 
-    for (int i = 0; i <= digitCount; i++){
+    for (int i = digitCount - 1; i >= 0; i--){
         interimResult = (digit(number1, (i+1)) + digit(number2, (i+1) ));
         if ( i > 0 && (digit(number1, i)) + digit(number2, i) >= 10){
             temp = 1;
