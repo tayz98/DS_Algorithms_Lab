@@ -15,45 +15,71 @@ typedef struct listnode {
     struct listnode *next;
 } Listnode;
 
+void listAdd(Listnode**, int);
 void print_list(Listnode*, int);
 void insert_element(Listnode*, int, int);
-void delete_list(Listnode*);
+void delete_list(Listnode**);
 int search_element(Listnode*, int);
 
 int main(void) {
 
-    // create elements and fill them with data
     Listnode *pStart = NULL;
-    pStart = (Listnode *) malloc(sizeof (Listnode));
-    pStart->value = 10;
-    pStart->next = (Listnode *) malloc(sizeof (Listnode));
-    pStart->next->value = 20;
-    pStart->next->next = (Listnode *) malloc(sizeof (Listnode));
-    pStart->next->next->value = 30;
-    pStart->next->next->next = (Listnode *) malloc(sizeof (Listnode));
-    pStart->next->next->next->value = 40;
-    pStart->next->next->next->next = (Listnode *) malloc(sizeof (Listnode));
-    pStart->next->next->next->next->value = 50;
-    pStart->next->next->next->next->next = (Listnode *) malloc(sizeof (Listnode));
-    pStart->next->next->next->next->next->value = 60;
-    pStart->next->next->next->next->next->next = (Listnode *) malloc(sizeof (Listnode));
-    pStart->next->next->next->next->next->next->value = 70;
-    pStart->next->next->next->next->next->next->next = NULL;
-    // prints the list.
-    print_list(pStart, 3);
-    printf("the position of the searched element in the list is: %d\n", search_element(pStart, 30));
+    listAdd(&pStart, 8);
+    listAdd(&pStart, 9);
+    listAdd(&pStart, 77);
+    listAdd(&pStart, 67);
+    listAdd(&pStart, 75);
+    listAdd(&pStart, 74);
+    listAdd(&pStart, 73);
+    listAdd(&pStart, 27);
+    listAdd(&pStart, 17);
+
+    // create elements and fill them with data
+
+
+    // using the functions
+    print_list(pStart, 7);
     insert_element(pStart, 2, 100);
+    print_list(pStart, 3);
+    delete_list(&pStart);
+    printf("the position of the searched element in the list is: %d\n", search_element(pStart, 30));
     print_list(pStart,7);
-    //inserts the element to the given position minus 1.
-    // prints the list again to show that the insert function works.
-    delete_list(pStart);
+
     return 0;
+}
+void listAdd(Listnode **pStart, int value) {
+
+   Listnode* new = (Listnode *) malloc(sizeof (Listnode));
+   Listnode *last = *pStart;
+
+   new->value = value;
+
+   new->next = NULL;
+
+   if (*pStart == NULL) {
+       *pStart = new;
+       return;
+   }
+   while (last->next != NULL) {
+       last = last->next;
+   }
+
+   last->next = new;
 }
 
 void print_list(Listnode *print, int count) {
     Listnode *current = print; // our run variable to run through the list.
 
+    if (current == NULL) {
+        printf("list is NULL");
+        return;
+    }
+
     for (int i = 0; i<count; i++) {
+        if (current == NULL) {
+            printf("test");
+            return;
+        }
         printf("%d\n", current->value);
         current = current->next;
     }
@@ -61,7 +87,11 @@ void print_list(Listnode *print, int count) {
 }
 
 void insert_element(Listnode *insert, int position, int val) {
+    if (insert == NULL) {
+        return;
+    }
     Listnode  *pTemp, *p; // pTemp is the run variable, p is the new element.
+    p = (Listnode *) malloc(sizeof (Listnode));
     p->value = val;
     pTemp = insert; // set the run variable to the address of pStart.
     for (int i = 1; i<position-1; i++) {
@@ -72,16 +102,29 @@ void insert_element(Listnode *insert, int position, int val) {
     return;
 }
 
-void delete_list(Listnode *delete) {
-    free(delete);
-    return;
+void delete_list(Listnode **delete) {
+    Listnode *current = *delete;
+    Listnode *next;
+    while (current!=NULL) {
+        next = current ->next;
+        free(current);
+        current = next;
+    }
+    *delete = NULL;
 }
 
 int search_element (Listnode *element, int val) {
+    if (element == NULL) {
+        printf("Either the element doesn't exist in the list, or the list doesn't exist. ");
+        return 0;
+    }
     int position = 1;
-    while (element !=NULL && element->value != val) {
+    while ((element !=NULL) && (element->value != val)) {
         element = element->next;
         position++;
+    }
+    if (element->value != val) {
+        return 0;
     }
     return position;
 }
